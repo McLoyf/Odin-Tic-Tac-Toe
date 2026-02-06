@@ -1,5 +1,5 @@
 const Gameboard = (function() {
-    const board = ['', '', '', '', '', '', '', '', ''];
+    const board = ['', '', '','', '', '', '', '', ''];
 
     const getBoardIndex = (index) => board[index];
     const getBoard = () => board;
@@ -26,11 +26,14 @@ const gameController = (function() {
         return Gameboard.setMark(index, mark);
     };
 
-    return { markBoard };
+    const decideFate = () => {
+    }
+
+    return { markBoard, decideFate };
 })();
 
 const testPlayer = createPlayer("TEST", "X");
 
-gameController.markBoard(3, "O");
-gameController.markBoard(3, "X");
-console.log(Gameboard.getBoard());
+// gameController.markBoard(3, "O");
+// gameController.markBoard(3, "X");
+// console.log(Gameboard.getBoard());
