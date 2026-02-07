@@ -1,3 +1,5 @@
+const output = document.getElementById('output');
+
 const Gameboard = (function() {
     const board = ['', '', '', '', '', '', '', '', ''];
 
@@ -82,6 +84,10 @@ const gameController = (function() {
     return { markBoard, decideFate };
 })();
 
+const displayController = (function() {
+
+})();
+
 const testPlayer = createPlayer("TEST", "X");
 
 /* Gameboard
@@ -89,15 +95,8 @@ const testPlayer = createPlayer("TEST", "X");
    3  4  5  o  x  o
    6  7  8  o  x  o
 */
-gameController.markBoard(0, "X");
-gameController.markBoard(1, "O");
-gameController.markBoard(2, "X");
-gameController.markBoard(3, "O");
-gameController.markBoard(4, "X");
-gameController.markBoard(5, "O");
-gameController.markBoard(6, "O");
-gameController.markBoard(7, "X");
-gameController.markBoard(8, "O");
-// console.log(Gameboard.getBoard());
-// console.log(gameController.getState());
-console.log(gameController.decideFate());
+output.addEventListener("click", function() {
+    output.textContent = "X";
+    gameController.markBoard(0, "X");
+    console.log(Gameboard.getBoard());
+});
