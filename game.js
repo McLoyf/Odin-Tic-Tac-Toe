@@ -120,10 +120,13 @@ const displayController = (() => {
 
     gameController.nextTurn();
     showBoard();
-    gameController.decideFate();
+    if (gameController.decideFate() != "Game Ongoing"){
+        document.getElementById("game-info").innerText = gameController.decideFate();
+    }
   });
 
   resetBtn.addEventListener("click", () => {
+    document.getElementById("game-info").innerText = "";
     Gameboard.reset();
     showBoard();
   })
