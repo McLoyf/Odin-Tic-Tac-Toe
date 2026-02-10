@@ -105,8 +105,10 @@ const displayController = (() => {
   };
 
   boardEl.addEventListener("click", (e) => {
-    if (gameController.decideFate() !== "Game Ongoing") return;
-
+    if (gameController.decideFate() !== "Game Ongoing") {
+        boardEl.classList.add('no-hover');
+        return;
+    }
     const cellEl = e.target.closest(".cell");
     if (!cellEl) return;
 

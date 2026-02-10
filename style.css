@@ -12,7 +12,6 @@ body{
 
 #board{
     display: grid;
-    background-color: white;
     grid-template-columns: repeat(3, 10rem);
     grid-template-rows: repeat(3, 10rem);
     width: 30rem;
@@ -23,8 +22,13 @@ body{
     display: grid;
     border-style: solid;
     border-color: black;
+    background-color: white;
 }
 
-#board .cell:hover{
+#board:not(.no-hover) .cell:hover{
     cursor: pointer;
+}
+
+#board.no-hover{
+    background-color: white;
 }
