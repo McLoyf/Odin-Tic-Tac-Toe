@@ -1,4 +1,5 @@
-const output = document.getElementById('output');
+const board = document.querySelectorAll("button");
+const boardEl = document.querySelector("#board");
 
 const Gameboard = (function() {
     const board = ['', '', '', '', '', '', '', '', ''];
@@ -64,28 +65,62 @@ const gameController = (function() {
         }
     }
 
+    let current = "X";
+    const getCurrentPlayerMarker = () => current;
+    const nextTurn = () => {
+        current = current === "X" ? "O" : "X";
+    }
+
     const markBoard = (index, mark) => {
         validate(index);
         return Gameboard.setMark(index, mark);
     }
 
     const decideFate = () => {
-        if (getState() === 0){
-            return ("Game is still ongoing");
-        } else if(getState() === 1){
-            throw new Error("X wins");
-        } else if(getState() === 2){
-            throw new Error("O wins");
-        } else if (getState() === 3){
-            throw new Error("Tie Game!");
+        gameState = getState();
+
+        switch (gameState) {
+            case 0:
+                return "Game Ongoing";
+            case 1:
+                return "X wins";
+            case 2:
+                return "O wins";
+            case 3:
+                return "Tie";
         }
     }
 
-    return { markBoard, decideFate };
+    return { markBoard, decideFate, getCurrentPlayerMarker, nextTurn };
 })();
 
-const displayController = (function() {
+const displayController = (() => {
+  const showBoard = () => {
+    const board = Gameboard.getBoard();
 
+    boardEl.querySelectorAll(".cell").forEach((cellEl) => {
+      const i = Number(cellEl.dataset.index);
+      cellEl.textContent = board[i];
+    });
+  };
+
+  boardEl.addEventListener("click", (e) => {
+    if (gameController.decideFate() !== "Game Ongoing") return;
+
+    const cellEl = e.target.closest(".cell");
+    if (!cellEl) return;
+
+    const index = Number(cellEl.dataset.index);
+    const currentPlayer = gameController.getCurrentPlayerMarker();
+
+    const moved = Gameboard.setMark(index, currentPlayer);
+
+    gameController.nextTurn();
+    showBoard();
+    gameController.decideFate();
+  });
+
+  return { showBoard };
 })();
 
 const testPlayer = createPlayer("TEST", "X");
@@ -95,8 +130,4 @@ const testPlayer = createPlayer("TEST", "X");
    3  4  5  o  x  o
    6  7  8  o  x  o
 */
-output.addEventListener("click", function() {
-    output.textContent = "X";
-    gameController.markBoard(0, "X");
-    console.log(Gameboard.getBoard());
-});
+displayController.showBoard();

@@ -10,7 +10,7 @@ body{
     color: black;
 }
 
-.Gameboard{
+#board{
     display: grid;
     background-color: white;
     grid-template-columns: repeat(3, 10rem);
@@ -19,16 +19,12 @@ body{
     height: 30rem;
 }
 
-.Gameboard span{
+#board .cell{
     display: grid;
     border-style: solid;
     border-color: black;
 }
 
-.Gameboard span:hover{
+#board .cell:hover{
     cursor: pointer;
-}
-
-.output:hover{
-    background-color: red;
 }
