@@ -1,5 +1,6 @@
 const board = document.querySelectorAll("button");
 const boardEl = document.querySelector("#board");
+const resetBtn = document.getElementById("resetBtn");
 
 const Gameboard = (function() {
     const board = ['', '', '', '', '', '', '', '', ''];
@@ -121,6 +122,11 @@ const displayController = (() => {
     showBoard();
     gameController.decideFate();
   });
+
+  resetBtn.addEventListener("click", () => {
+    Gameboard.reset();
+    showBoard();
+  })
 
   return { showBoard };
 })();
