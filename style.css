@@ -1,6 +1,6 @@
 html, body{
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
 }
 
 body{
@@ -19,6 +19,13 @@ body{
     text-align: center;
 }
 
+.game-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
 #board{
     display: grid;
     grid-template-columns: repeat(3, 10rem);
@@ -34,10 +41,24 @@ body{
     background-color: white;
 }
 
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    font-size: 3em;
+}
+
 #board:not(.no-hover) .cell:hover{
     cursor: pointer;
 }
 
 #board.no-hover{
     background-color: white;
+}
+
+#game-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

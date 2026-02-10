@@ -120,7 +120,8 @@ const displayController = (() => {
 
     gameController.nextTurn();
     showBoard();
-    if (gameController.decideFate() != "Game Ongoing"){
+
+    if (gameController.decideFate() !== "Game Ongoing"){
         document.getElementById("game-info").innerText = gameController.decideFate();
     }
   });
@@ -135,10 +136,3 @@ const displayController = (() => {
 })();
 
 const testPlayer = createPlayer("TEST", "X");
-
-/* Gameboard
-   0  1  2  x  o  x
-   3  4  5  o  x  o
-   6  7  8  o  x  o
-*/
-displayController.showBoard();
