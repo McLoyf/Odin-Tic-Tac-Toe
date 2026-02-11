@@ -1,6 +1,9 @@
 const board = document.querySelectorAll("button");
 const boardEl = document.querySelector("#board");
 const resetBtn = document.getElementById("resetBtn");
+const form = document.getElementById("player-form");
+const cancelBtn = document.querySelector("#cancel");
+const dialog = document.querySelector("#start-dialog");
 
 const Gameboard = (function() {
     const board = ['', '', '', '', '', '', '', '', ''];
@@ -16,8 +19,9 @@ const Gameboard = (function() {
 })();
 
 const createPlayer = (name, mark) => {
-    return (name, mark);
+  return { name, mark };
 };
+
 
 const gameController = (function() {
     const validate = index => {
@@ -84,6 +88,21 @@ const gameController = (function() {
 })();
 
 const displayController = (() => {
+  let players = [];
+  let currentPlayerIndex = 0;
+
+  const setPlayers = (p1, p2) => {
+    players = [p1, p2];
+    currentPlayerIndex = 0;
+  };
+
+  const getPlayers = () => [...players];
+  const getCurrentPlayer = () => players[currentPlayerIndex];
+
+  const switchTurn = () => {
+    currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+  };
+
   const showBoard = () => {
     const board = Gameboard.getBoard();
 
@@ -95,32 +114,70 @@ const displayController = (() => {
 
   boardEl.addEventListener("click", (e) => {
     if (gameController.decideFate() !== "Game Ongoing") {
-        boardEl.classList.add('no-hover');
-        return;
+      boardEl.classList.add("no-hover");
+      return;
     }
+
     const cellEl = e.target.closest(".cell");
     if (!cellEl) return;
+    
+    if (players.length !== 2) return;
 
     const index = Number(cellEl.dataset.index);
-    const currentPlayer = gameController.getCurrentPlayerMarker();
+    const player = getCurrentPlayer();
 
-    const moved = gameController.markBoard(index, currentPlayer);
+    try {
+      gameController.markBoard(index, player.mark);
+    } catch (err) {
+      return;
+    }
 
-    gameController.nextTurn();
     showBoard();
 
-    if (gameController.decideFate() !== "Game Ongoing"){
-        document.getElementById("game-info").innerText = gameController.decideFate();
+    const fate = gameController.decideFate();
+    if (fate !== "Game Ongoing") {
+      document.getElementById("game-info").innerText =
+        fate === "Tie" ? "It's a tie!" : `${player.name} wins! (${player.mark})`;
+      boardEl.classList.add("no-hover");
+      return;
     }
+
+    switchTurn();
   });
 
   resetBtn.addEventListener("click", () => {
     document.getElementById("game-info").innerText = "";
+    boardEl.classList.remove("no-hover");
     Gameboard.reset();
     showBoard();
-  })
+    currentPlayerIndex = 0;
+  });
 
-  return { showBoard };
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const playerOneName =
+      document.querySelector("#player1-name").value.trim() || "Player X";
+    const playerTwoName =
+      document.querySelector("#player2-name").value.trim() || "Player O";
+
+    const p1 = createPlayer(playerOneName, "X");
+    const p2 = createPlayer(playerTwoName, "O");
+
+    setPlayers(p1, p2);
+
+    form.reset();
+    dialog.close();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#start-game")) return;
+    dialog.showModal();
+  });
+
+  cancelBtn.addEventListener("click", () => dialog.close());
+
+  showBoard();
+
+  return { showBoard, getPlayers, getCurrentPlayer };
 })();
-
-const testPlayer = createPlayer("TEST", "X");

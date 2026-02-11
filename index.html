@@ -11,7 +11,31 @@
     <main>
         <header class="header">
         <h1>Tic Tac Toe</h1>
-        <button id="resetBtn">Reset</button>
+        <div class="header-actions">
+            <button type="button" id="start-game">Start Game</button>
+            <dialog id="start-dialog">
+                <form id="player-form">
+                    <h3>Player 1</h3>
+                    <label>
+                        Name
+                        <input type="text" id="player1-name">
+                    </label>
+
+                    <h3>Player 2</h3>
+                    <label>
+                        Name
+                        <input type="text" id="player2-name">
+                    </label>
+
+                    <div class="dialog-actions">
+                        <button type="submit">Start Game</button>
+                        <button type="button" id="cancel">Cancel</button>
+                    </div>
+                </form>
+            </dialog>
+
+                <button id="resetBtn">Reset</button>
+        </div>
         </header>
         <div class="game-area">
             <div id="board" class="board">
