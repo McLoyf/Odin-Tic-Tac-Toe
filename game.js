@@ -116,7 +116,7 @@ const displayController = (() => {
     const index = Number(cellEl.dataset.index);
     const currentPlayer = gameController.getCurrentPlayerMarker();
 
-    const moved = Gameboard.setMark(index, currentPlayer);
+    const moved = gameController.markBoard(index, currentPlayer);
 
     gameController.nextTurn();
     showBoard();
