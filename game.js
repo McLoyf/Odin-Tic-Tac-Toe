@@ -26,44 +26,32 @@ const gameController = (function() {
     }
 }
     const getState = () => {
-        if (Gameboard.getBoardIndex(0) === "X" && Gameboard.getBoardIndex(1) === "X" && Gameboard.getBoardIndex(2) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(3) === "X" && Gameboard.getBoardIndex(4) === "X" && Gameboard.getBoardIndex(5) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(6) === "X" && Gameboard.getBoardIndex(7) === "X" && Gameboard.getBoardIndex(8) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(0) === "X" && Gameboard.getBoardIndex(3) === "X" && Gameboard.getBoardIndex(6) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(1) === "X" && Gameboard.getBoardIndex(4) === "X" && Gameboard.getBoardIndex(7) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(2) === "X" && Gameboard.getBoardIndex(5) === "X" && Gameboard.getBoardIndex(8) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(0) === "X" && Gameboard.getBoardIndex(4) === "X" && Gameboard.getBoardIndex(8) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(2) === "X" && Gameboard.getBoardIndex(4) === "X" && Gameboard.getBoardIndex(6) == "X"){
-            return 1;
-        } else if (Gameboard.getBoardIndex(0) === "O" && Gameboard.getBoardIndex(1) === "O" && Gameboard.getBoardIndex(2) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(3) === "O" && Gameboard.getBoardIndex(4) === "O" && Gameboard.getBoardIndex(5) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(6) === "O" && Gameboard.getBoardIndex(7) === "O" && Gameboard.getBoardIndex(8) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(0) === "O" && Gameboard.getBoardIndex(3) === "O" && Gameboard.getBoardIndex(6) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(1) === "O" && Gameboard.getBoardIndex(4) === "O" && Gameboard.getBoardIndex(7) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(2) === "O" && Gameboard.getBoardIndex(5) === "O" && Gameboard.getBoardIndex(8) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(0) === "O" && Gameboard.getBoardIndex(4) === "O" && Gameboard.getBoardIndex(8) == "O"){
-            return 2;
-        } else if (Gameboard.getBoardIndex(2) === "O" && Gameboard.getBoardIndex(4) === "O" && Gameboard.getBoardIndex(6) == "O"){
-            return 2;
-        } else {
-            if (!Gameboard.getBoard().includes("")){
-                return 3;
+        const board = Gameboard.getBoard();
+
+        const winningCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        for (let combo of winningCombos) {
+            const [a, b, c] = combo;
+
+            if (board[a] !== "" && board[a] === board[b] && board[a] === board[c]) {
+                return board[a] === "X" ? 1 : 2;
             }
-            return 0;
         }
+
+        if(!board.includes("")) {
+            return 3;
+        }
+
+        return 0;
     }
 
     let current = "X";
